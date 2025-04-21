@@ -1,9 +1,17 @@
 import { svelteTesting } from '@testing-library/svelte/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
+import wasm from 'vite-plugin-wasm';
+import path from 'path';
 
 export default defineConfig({
-	plugins: [sveltekit()],
+	plugins: [sveltekit(), wasm()],
+	server: {
+		fs: {
+			// 👇 Add the directory containing your WASM pkg
+			allow: ['src', path.resolve('../../hf/xet-core/hf_xet_wasm/pkg')]
+		}
+	},
 	test: {
 		workspace: [
 			{

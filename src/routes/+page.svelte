@@ -1,2 +1,8 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<h1>Chunking Demo</h1>
+<script lang="ts">
+  import { callMe } from '$lib/index';
+</script>
+
+<button on:click={callMe}>
+  Click Me
+</button>
