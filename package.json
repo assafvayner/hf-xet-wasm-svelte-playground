@@ -17,7 +17,6 @@
 	},
 	"dependencies": {
 		"@types/node": "^22.14.1",
-		"hf_xet_wasm": "link:../../hf/xet-core/hf_xet_wasm/pkg",
 		"vite-plugin-wasm": "^3.4.1"
 	},
 	"devDependencies": {
