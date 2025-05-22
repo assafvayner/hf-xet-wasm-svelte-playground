@@ -1,18 +1,28 @@
-import { chunk, ChunkInfo } from '../../../../hf/xet-core/hf_xet_wasm/pkg/hf_xet_wasm';
+import { Chunker } from '../../../../hf/xet-core/chunker-wasm/pkg/chunker_wasm';
 
 const DEFAULT_SIZE_IN_MB = 20;
+const TARGET_CHUNK_SIZE_IN_BYTES = 64 * 1024;
+const MB_TO_BYTES = 1024 * 1024;
+const DEFAULT_INGESTION_SIZE_IN_BYTES = 1 * MB_TO_BYTES; // arbitrary
 
 export async function callMe() {
 	const buffer = generateRandomData(DEFAULT_SIZE_IN_MB);
-	const result1: ChunkInfo[] = chunk(buffer);
-	console.log(`chunk vec:\n${result1}`);
 
-	console.log(`num chunks returned ${result1.length}`);
+	const chunker = new Chunker(TARGET_CHUNK_SIZE_IN_BYTES);
 
-	for (let i = 0; i < result1.length; i++) {
-		const chunk_info_1 = result1[i];
-		console.log(`chunk index ${i}, len: ${chunk_info_1.len}, hash: ${chunk_info_1.hash}`);
+	const ingestion_size = DEFAULT_INGESTION_SIZE_IN_BYTES;
+	for (let i = 0; i < buffer.length; i += ingestion_size) {
+		const slice = buffer.slice(i, i + ingestion_size);
+		const chunk_info = chunker.add_data(slice);
+		for (const chunk of chunk_info) {
+			console.log(`chunk: ${chunk}, hash: ${chunk.hash}, length: ${chunk.length}`);
+		}
 	}
+	const chunk_info = chunker.finish();
+	for (const chunk of chunk_info) {
+		console.log(`chunk: ${chunk}, hash: ${chunk.hash}, length: ${chunk.length}`);
+	}
+	console.log('done');
 }
 
 /**

@@ -11,9 +11,6 @@ importers:
       '@types/node':
         specifier: ^22.14.1
         version: 22.14.1
-      hf_xet_wasm:
-        specifier: link:../../hf/xet-core/hf_xet_wasm/pkg
-        version: link:../../hf/xet-core/hf_xet_wasm/pkg
       vite-plugin-wasm:
         specifier: ^3.4.1
         version: 3.4.1(vite@6.3.2(@types/node@22.14.1))
